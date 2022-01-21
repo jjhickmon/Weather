@@ -9,20 +9,35 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.getCity = this.getCity.bind(this);
+        this.getLocation = this.getLocation.bind(this);
         this.setTheme = this.setTheme.bind(this);
         this.state = {
             city: "Seattle",
+            latitude: 0,
+            longitude: 0,
             current: {temp: 0, weather: [{description: ""}], wind_speed: 0},
             hourly: [],
             daily: [{temp: {min: 0, max: 0}}]
         };
     }
 
+    getLocation() {
+        navigator.geolocation.getCurrentPosition(position => {
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
+            this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
+        });
+    }
+
     updateWeather() {
         fetch('https://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
         .then(data => data.json())
         .then(data => {
-            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
+            console.log(data[0].lon + " " + data[0].lat);
+            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+this.state.latitude+'&lon='+this.state.longitude+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
             .then(response => response.json())
             .then(response => {
                 console.log(response);
@@ -36,6 +51,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
+        this.getLocation();
         this.updateWeather();
     }
 
