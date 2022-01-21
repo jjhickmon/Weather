@@ -19,7 +19,7 @@ export default class App extends React.Component {
     }
 
     updateWeather() {
-        fetch('http://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
+        fetch('https://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
         .then(data => data.json())
         .then(data => {
             fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
@@ -57,7 +57,7 @@ export default class App extends React.Component {
     }
     
     getCity(city) {
-        var url = 'http://api.openweathermap.org/data/2.5/weather?q='+city+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b';
+        var url = 'https://api.openweathermap.org/data/2.5/weather?q='+city+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b';
         fetch(url)
         .then(response => {
             if (response.ok) {

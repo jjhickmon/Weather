@@ -18,7 +18,7 @@ export default class HourlyPrediction extends React.Component {
                                         </p>
                                     </div>
                                     <div className="icon">
-                                        <img src={"http://openweathermap.org/img/wn/"+daily.weather[0].icon+"@2x.png"} alt="weather icon"/>
+                                        <img src={"https://openweathermap.org/img/wn/"+daily.weather[0].icon+"@2x.png"} alt="weather icon"/>
                                     </div>
                                     <div className="POP">
                                             {Math.round(daily.pop*100)+"%"}
