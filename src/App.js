@@ -13,8 +13,8 @@ export default class App extends React.Component {
         this.setTheme = this.setTheme.bind(this);
         this.state = {
             city: "Seattle",
-            latitude: 0,
-            longitude: 0,
+            latitude: 47.6546964,
+            longitude: -122.3117811,
             current: {temp: 0, weather: [{description: ""}], wind_speed: 0},
             hourly: [],
             daily: [{temp: {min: 0, max: 0}}]
@@ -23,8 +23,8 @@ export default class App extends React.Component {
 
     getLocation() {
         navigator.geolocation.getCurrentPosition(position => {
-            console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
+            console.log("Latitude is :", position.coords.latitude);
             this.setState({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
@@ -36,7 +36,10 @@ export default class App extends React.Component {
         fetch('https://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
         .then(data => data.json())
         .then(data => {
-            console.log(data[0].lon + " " + data[0].lat);
+            this.setState({
+                latitude: data[0].lat,
+                longitude: data[0].lon
+            });
             fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+this.state.latitude+'&lon='+this.state.longitude+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
             .then(response => response.json())
             .then(response => {
