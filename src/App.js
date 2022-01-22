@@ -36,10 +36,6 @@ export default class App extends React.Component {
         fetch('https://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
         .then(data => data.json())
         .then(data => {
-            // this.setState({
-            //     latitude: data[0].lat,
-            //     longitude: data[0].lon
-            // });
             fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
             .then(response => response.json())
             .then(response => {
