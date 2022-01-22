@@ -54,7 +54,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        this.getLocation();
+        // this.getLocation();
         this.updateWeather();
     }
 
