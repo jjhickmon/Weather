@@ -40,7 +40,7 @@ export default class App extends React.Component {
             //     latitude: data[0].lat,
             //     longitude: data[0].lon
             // });
-            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+this.state.latitude+'&lon='+this.state.longitude+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
+            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
             .then(response => response.json())
             .then(response => {
                 console.log(response);
