@@ -54,7 +54,7 @@ export default class HourlyPrediction extends React.Component {
                     <div className="POP">
                         <h6>Chance of Rain</h6>
                         <p>
-                            {(this.props.daily[0].pop * 100) + "%"}
+                            {Math.round(this.props.daily[0].pop * 100) + "%"}
                         </p>
                     </div>
                     <div className="humididty">

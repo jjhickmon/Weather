@@ -1,10 +1,27 @@
 :root {
     --cream: rgb(239, 239, 239);
     --dark-blue: rgba(40, 44, 52, 1);
+    --darker-blue: rgba(35, 37, 42, 1);
     --light-blue: rgb(100, 174, 235);
     --bright-blue: rgb(51, 121, 187);
     --dark-grey: rgba(51, 51, 51, 1);
     --light-grey: rgb(214, 214, 214);
+    --transparent: rgba(0, 0, 0, 0);
+    --translucent-white1: rgb(255, 255, 255, .1);
+    --translucent-white2: rgb(255, 255, 255, .4);
+    --translucent-black: rgb(0, 0, 0, .6);
+    --blue1: rgb(1, 79, 134);
+    --brown1: rgb(237, 224, 212);
+    --brown2: rgb(230, 204, 178);
+    --brown3: rgb(221, 184, 146);
+    --brown4: rgb(176, 137, 104);
+    --brown5: rgb(127, 85, 57);
+    --green1: rgb(233, 245, 219);
+    --green2: rgb(207, 225, 185);
+    --green3: rgb(181, 201, 154);
+    --green4: rgb(151, 169, 124);
+    --green5: rgb(135, 152, 106);
+    --green6: rgb(113, 131, 85);
     --primary-color: var(--cream); 
     --secondary-color: var(--dark-blue);
     --tertiary-color: var(--dark-grey);
@@ -43,9 +60,9 @@ svg {
 }
 
 path {
-  stroke: #9ea1a4;
+  stroke: var(--secondary-color);
   stroke-width: 0.25;
-  fill: #241E20;
+  fill: var(--primary-color);
 }
 
 #cloud {
@@ -76,7 +93,7 @@ path {
 
 #sun path {
   stroke-width: 0.18;
-  fill: #9ea1a4;
+  fill: var(--secondary-color);
 }
 
 
@@ -101,7 +118,7 @@ path {
 
 .drop {
   opacity: 1;
-  background: #9ea1a4;
+  background: var(--tertiary-color);
   display: block;
   float: left;
   width: 3px;
@@ -179,6 +196,6 @@ path {
 	font-weight: bold;
 	margin-top: 20px;
 	font-size: 11px;
-	color: #a0a0a0;
+	color: var(--secondary-color);
 	width: 200px;
 }

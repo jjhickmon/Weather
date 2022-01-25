@@ -10,11 +10,12 @@
 }
 
 .search {
-    background-color: var(--tertiary-color);
+    background-color: var(--primary-accent-color);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 #search-bar {
@@ -24,6 +25,11 @@
     border-radius: 3vw;
     margin: 1vh 0 1vh 0;
     text-align: center;
+}
+
+#theme-switch {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 main {
@@ -61,6 +67,21 @@ main {
 .curr-temp #temp {
     font-size: calc(10px + 20vmin);
     margin: 0;
+
+    background-color: var(--tertiary-color);
+    color: var(--primary-shading-color);
+    text-shadow: 2px 2px 3px var(--secondary-shading-color);
+    -webkit-background-clip: text;
+        -moz-background-clip: text;
+            background-clip: text; 
+/*     
+    background-color: var(--tertiary-color);
+    color: transparent;
+    text-shadow: 2px 2px 3px var(--secondary-shading-color);
+    -webkit-background-clip: text;
+        -moz-background-clip: text;
+            background-clip: text; 
+    */
 }
 
 .curr-temp .low-high {
@@ -85,10 +106,10 @@ main {
     position: -webkit-sticky;
 	position: sticky;
     top: 0vh;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: flex;
     flex-direction: row;
-    background-color: var(--tertiary-color);
+    background-color: var(--primary-accent-color);
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -97,7 +118,6 @@ main {
 
 .hourly div {
     display: inline-block;
-    color: var(--primary-color);
     text-align: center;
     padding: 14px;
     text-decoration: none;
@@ -108,7 +128,6 @@ main {
 }
 
 .hourly .POP {
-    color: var(--primary-accent-color);
     font-weight: 300;
     margin: 0;
     font-size: calc(10px + 1vmin);
@@ -123,11 +142,11 @@ main {
 }
 
 .daily {
-    background-color: var(--secondary-accent-color);
+    color: var(--secondary-color);
     height: auto;
     padding: 1vh 5vw;
     margin-bottom: auto;
-    border-bottom: 1px solid var(--secondary-color);
+    border-bottom: 1px solid;
 }
 
 .daily img {
@@ -161,15 +180,10 @@ main {
 }
 
 .daily .POP {
-    color:var(--primary-accent-color);
     flex: 10%;
     margin: 0;
     font-weight: 300;
     font-size: calc(10px + 1vmin);
-}
-
-.weather-stats {
-    margin: 0 5vw;
 }
 
 .weather-stats p {
@@ -178,7 +192,6 @@ main {
 }
 
 .weather-stats h6 {
-    color: var(--secondary-color);
     text-align: left;
     margin: 2vh 0 .5vh 0;
     font-weight: 400;
@@ -187,7 +200,11 @@ main {
 .weather-stats section {
     display: flex;
     padding: 0 0 2vh 0;
-    border-bottom: 1px solid var(--secondary-color);
+    border-bottom: 1px solid;
+}
+
+.weather-stats section div{
+    margin: 0 5vw;
 }
 
 .weather-stats section > * {

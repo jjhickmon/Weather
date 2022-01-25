@@ -26,11 +26,11 @@
     -->
     <title>React App</title>
     <!--
-        Theme is light by default but can be dark
+        Theme is light by default but can be dark, brown
     -->
-    <meta name="theme" content="light">
+    <meta name="theme" content="brown">
   </head>
-  <body onload="load()">
+  <body id="body">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div style="display:none;" id="root" class="animate-bottom"></div>
     <!--
@@ -77,29 +77,5 @@
           LOOKING OUTSIDE FOR YOU... ONE SEC
         </div>
     </div>
-    <script>
-        var time;
-        function load() {
-            if (document.head.querySelector('meta[name="theme"]').content === "light") {
-                document.documentElement.style.setProperty('--primary-color', 'var(--cream)');
-                document.documentElement.style.setProperty('--secondary-color', 'var(--dark-blue)');
-                document.documentElement.style.setProperty('--tertiary-color', 'var(--dark-grey)');
-                document.documentElement.style.setProperty('--primary-accent-color', 'var(--light-blue)');
-                document.documentElement.style.setProperty('--secondary-accent-color', 'var(--light-grey)');
-            } else {
-                document.documentElement.style.setProperty('--primary-color', 'var(--dark-blue)');
-                document.documentElement.style.setProperty('--secondary-color', 'var(--cream)');
-                document.documentElement.style.setProperty('--tertiary-color', 'var(--light-grey)');
-                document.documentElement.style.setProperty('--primary-accent-color', 'var(--bright-blue)');
-                document.documentElement.style.setProperty('--secondary-accent-color', 'var(--dark-blue)');
-            }
-            time = setTimeout(showPage, 3000);
-        }
-        
-        function showPage() {
-            document.getElementById("preloader").style.display = "none";
-            document.getElementById("root").style.display = "block";
-        }
-    </script>
   </body>
 </html>

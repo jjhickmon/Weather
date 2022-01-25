@@ -9,12 +9,16 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.getCity = this.getCity.bind(this);
+        this.updateWeather = this.updateWeather.bind(this);
+        this.setWeather = this.setWeather.bind(this);
         this.getLocation = this.getLocation.bind(this);
+        this.load = this.load.bind(this);
+        this.showPage = this.showPage.bind(this);
         this.setTheme = this.setTheme.bind(this);
         this.state = {
-            city: "Seattle",
-            latitude: 47.6546964,
-            longitude: -122.3117811,
+            city: "",
+            cookies: false,
+            location: [],
             current: {temp: 0, weather: [{description: ""}], wind_speed: 0},
             hourly: [],
             daily: [{temp: {min: 0, max: 0}}]
@@ -23,20 +27,44 @@ export default class App extends React.Component {
 
     getLocation() {
         navigator.geolocation.getCurrentPosition(position => {
-            console.log("Longitude is :", position.coords.longitude);
-            console.log("Latitude is :", position.coords.latitude);
             this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            });
-        });
+                cookies: true,
+                location: [position.coords.latitude, position.coords.longitude]
+            }, () => this.updateWeather());
+        }, this.updateWeather());
     }
 
     updateWeather() {
+        console.log(this.state.location);
+        if (this.state.location.length === 0) {
+            console.log("no location data provided");
+            if (this.state.city === "") {
+                this.setState({
+                    city: "Kingston"
+                }, () => this.setWeather());
+            } else {
+                console.log("hi" + this.state.city);
+                this.setWeather();
+            }
+        } else {
+            fetch('http://api.openweathermap.org/geo/1.0/reverse?lat='+this.state.location[0]+'&lon='+this.state.location[1]+'&limit=1&appid=b5b4f0115cb376736a2f740df42c821b')
+            .then(data => data.json())
+            .then(data => {
+                this.setState({
+                    city: data[0].name
+                }, () => this.setWeather());
+            });
+        }
+    }
+
+    setWeather() {
         fetch('https://api.openweathermap.org/geo/1.0/direct?q='+this.state.city+'&appid=b5b4f0115cb376736a2f740df42c821b')
         .then(data => data.json())
         .then(data => {
-            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
+            this.setState({
+                location: [data[0].lat, data[0].lon]
+            });
+            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+this.state.location[0]+'&lon='+this.state.location[1]+'&units=imperial&appid=b5b4f0115cb376736a2f740df42c821b')
             .then(response => response.json())
             .then(response => {
                 console.log(response);
@@ -50,25 +78,8 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        // this.getLocation();
-        this.updateWeather();
-    }
-
-    load() {
-        if (document.head.querySelector('meta[name="theme"]').content === "light") {
-            document.documentElement.style.setProperty('--primary-color', 'var(--cream)');
-            document.documentElement.style.setProperty('--secondary-color', 'var(--dark-blue)');
-            document.documentElement.style.setProperty('--tertiary-color', 'var(--dark-grey)');
-            document.documentElement.style.setProperty('--primary-accent-color', 'var(--light-blue)');
-            document.documentElement.style.setProperty('--secondary-accent-color', 'var(--light-grey)');
-        } else {
-            document.documentElement.style.setProperty('--primary-color', 'var(--dark-blue)');
-            document.documentElement.style.setProperty('--secondary-color', 'var(--cream)');
-            document.documentElement.style.setProperty('--tertiary-color', 'var(--light-grey)');
-            document.documentElement.style.setProperty('--primary-accent-color', 'var(--bright-blue)');
-            document.documentElement.style.setProperty('--secondary-accent-color', 'var(--dark-blue)');
-        }
-        
+        document.getElementById('body').onload = this.load();
+        this.getLocation();
     }
     
     getCity(city) {
@@ -90,12 +101,32 @@ export default class App extends React.Component {
 
     }
 
-    setTheme() {
-        if (document.head.querySelector('meta[name="theme"]').content === "light") {
-            document.head.querySelector('meta[name="theme"]').content = "dark";
-        } else {
-            document.head.querySelector('meta[name="theme"]').content = "light";
+    load() {
+        const pallette = ['--primary-color', '--secondary-color', '--tertiary-color', '--primary-accent-color', '--primary-shading-color', '--secondary-shading-color'];
+        const light = ['var(--cream)', 'var(--dark-blue)', 'var(--light-blue)', 'var(--light-grey)', 'var(--transparent)', 'var(--translucent-white2)'];
+        const dark = ['var(--dark-blue)', 'var(--cream)', 'var(--dark-blue)', 'var(--darker-blue)', 'var(--translucent-black)', 'var(--translucent-white1)'];
+        const brown = ['var(--cream)', 'var(--brown5)', 'var(--brown5)', 'var(--brown3)', 'var(--transparent)', 'var(--translucent-white2)'];
+        const green = ['var(--cream)', 'var(--green6)', 'var(--green5)', 'var(--green4)', 'var(--transparent)', 'var(--translucent-white2)'];
+        const themes = {"light":light, "dark":dark, "brown":brown, "green":green};
+        for (let theme in themes){
+            if (document.head.querySelector('meta[name="theme"]').content === theme) {
+                for (let i = 0; i < pallette.length; i++) {
+                    document.documentElement.style.setProperty(pallette[i], themes[theme][i]);
+                }
+            }
         }
+        setTimeout(this.showPage, 4000);
+    }
+
+    showPage() {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("root").style.display = "block";
+    }  
+
+    setTheme() {
+        const themes = ["light", "dark", "brown", "green"];
+        document.head.querySelector('meta[name="theme"]').content = 
+            themes[(themes.indexOf(document.head.querySelector('meta[name="theme"]').content) + 1) % themes.length];
         this.load();
     }
 
@@ -104,7 +135,9 @@ export default class App extends React.Component {
             <div className="App">
                 <div className="search">
                     <SearchBar id="search-bar" city={this.getCity}/>
-                    <button id="theme-switch" onClick={this.setTheme}>theme</button>
+                    <button id="theme-switch" onClick={this.setTheme}>
+                        <img src="https://img.icons8.com/material-outlined/24/000000/sun--v1.png" alt="theme icon"/>
+                    </button>
                 </div>
                 <main>
                     <div className="header">
