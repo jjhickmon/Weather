@@ -4,6 +4,7 @@ import SearchBar from './SearchBar.js';
 import HourlyPrediction from './HourlyPrediction.js';
 import DailyPrediction from './DailyPrediction.js';
 import WeatherStats from './WeatherStats.js';
+import { themes, pallette} from './Themes.js';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ export default class App extends React.Component {
         this.showPage = this.showPage.bind(this);
         this.setTheme = this.setTheme.bind(this);
         this.state = {
+            theme: "",
             city: "",
             cookies: false,
             location: [],
@@ -40,10 +42,9 @@ export default class App extends React.Component {
             console.log("no location data provided");
             if (this.state.city === "") {
                 this.setState({
-                    city: "Kingston"
+                    city: "Seattle"
                 }, () => this.setWeather());
             } else {
-                console.log("hi" + this.state.city);
                 this.setWeather();
             }
         } else {
@@ -102,17 +103,12 @@ export default class App extends React.Component {
     }
 
     load() {
-        const pallette = ['--primary-color', '--secondary-color', '--tertiary-color', '--primary-accent-color', '--primary-shading-color', '--secondary-shading-color'];
-        const light = ['var(--cream)', 'var(--dark-blue)', 'var(--light-blue)', 'var(--light-grey)', 'var(--transparent)', 'var(--translucent-white2)'];
-        const dark = ['var(--dark-blue)', 'var(--cream)', 'var(--dark-blue)', 'var(--darker-blue)', 'var(--translucent-black)', 'var(--translucent-white1)'];
-        const brown = ['var(--cream)', 'var(--brown5)', 'var(--brown5)', 'var(--brown3)', 'var(--transparent)', 'var(--translucent-white2)'];
-        const green = ['var(--cream)', 'var(--green6)', 'var(--green5)', 'var(--green4)', 'var(--transparent)', 'var(--translucent-white2)'];
-        const themes = {"light":light, "dark":dark, "brown":brown, "green":green};
-        for (let theme in themes){
-            if (document.head.querySelector('meta[name="theme"]').content === theme) {
-                for (let i = 0; i < pallette.length; i++) {
-                    document.documentElement.style.setProperty(pallette[i], themes[theme][i]);
-                }
+        if (localStorage.getItem("theme") === null) {
+            localStorage.setItem("theme", "light");
+        }
+        if (localStorage.getItem("theme") in themes) {
+            for (let i = 0; i < pallette.length; i++) {
+                document.documentElement.style.setProperty(pallette[i], themes[localStorage.getItem("theme")][i]);
             }
         }
         setTimeout(this.showPage, 4000);
@@ -124,15 +120,15 @@ export default class App extends React.Component {
     }  
 
     setTheme() {
-        const themes = ["light", "dark", "brown", "green"];
-        document.head.querySelector('meta[name="theme"]').content = 
-            themes[(themes.indexOf(document.head.querySelector('meta[name="theme"]').content) + 1) % themes.length];
+        let theme_names = Object.keys(themes);
+        localStorage.setItem("theme", theme_names[(theme_names.indexOf(localStorage.getItem("theme")) + 1) % theme_names.length]);
         this.load();
     }
 
     render() {
         return (
             <div className="App">
+                <script type="text/javascript" src="Themes.js"></script> 
                 <div className="search">
                     <SearchBar id="search-bar" city={this.getCity}/>
                     <button id="theme-switch" onClick={this.setTheme}>
