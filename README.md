@@ -2,4 +2,4 @@
 A simple, responsive weather web app
 
 # demo
-![](weather-demo.jpeg =250x)
+![<img src="weather-demo.jpeg" width="250"/>](weather-demo.jpeg)
